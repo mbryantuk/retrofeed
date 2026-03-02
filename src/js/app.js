@@ -5,7 +5,7 @@ import {
     saveDeviceHandle, getSavedDeviceHandle, removeDeviceHandle
 } from './core/db.js';
 import { fetchAndParseFeed, searchPodcasts, getProxyBase } from './core/rss.js';
-import { generateFormattedFilename, getPodcastInitial } from './core/utils.js';
+import { generateFormattedFilename, getPodcastInitial, TaskQueue } from './core/utils.js';
 import { downloadEpisodeBlob } from './core/downloader.js';
 import { transcodeToMP3 } from './core/transcoder.js';
 import { openSearchModal } from './ui/searchModal.js';
@@ -257,6 +257,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let isAppInitialized = false;
     let syncAbortController = null;
     let activePodcast = null;
+    const downloadQueue = new TaskQueue(2); // 2 concurrent downloads max
 
     // --- Navigation ---
 
@@ -1024,6 +1025,7 @@ loginBtn.addEventListener('click', async () => {
                     } catch (e) {}
                 }
 
+                const downloadTasks = [];
                 for (const item of toDownload) {
                     const expectedFilename = generateFormattedFilename(template, {
                         pubDate: item.pubDate,
@@ -1036,9 +1038,16 @@ loginBtn.addEventListener('click', async () => {
                     const alreadyOnDeviceFS = deviceFiles.has(expectedFilename);
 
                     if (!alreadyInCache && !alreadyOnDeviceDB && !alreadyOnDeviceFS) {
-                        await cacheEpisode(subId, sub.title, item);
-                    } else {                        console.log(`⏭️ Skipping ${item.title} - already present in cache or on device.`);
+                        downloadTasks.push(downloadQueue.push(() => cacheEpisode(subId, sub.title, item)));
+                    } else {
+                        console.log(`⏭️ Skipping ${item.title} - already present in cache or on device.`);
                     }
+                }
+
+                // If navigate is true (manual add), we wait for downloads to show progress.
+                // If it's a background refresh (navigate=false), we don't block the UI.
+                if (navigate) {
+                    await Promise.all(downloadTasks);
                 }
             }
 
@@ -1046,6 +1055,7 @@ loginBtn.addEventListener('click', async () => {
             await renderSubscriptions();
 
             // Auto-Sync after add/refresh if enabled
+            // We DON'T await this so it can run alongside downloads
             const autoSync = await getSetting('auto_sync_to_device', 'false') === 'true';
             if (autoSync && isDeviceConnected) {
                 console.log("🚀 Auto-sync triggered after feed add/refresh...");
@@ -1184,66 +1194,71 @@ loginBtn.addEventListener('click', async () => {
         syncAbortController = new AbortController();
         
         try {
-            const allEpisodes = await getAllEpisodes();
-            let episodes = allEpisodes.filter(e => e.status === 'downloaded' && e.blob);
-            
-            // Sort by publication date: Oldest to Newest
-            episodes.sort((a, b) => new Date(a.pubDate || a.dateCached || 0) - new Date(b.pubDate || b.dateCached || 0));
-            
-            if (episodes.length === 0) {
-                alert("No episodes found in cache to sync.");
-                syncBtn.disabled = false;
-                syncOverlay.classList.add('hidden');
-                console.groupEnd();
-                return;
-            }
+            let processedUrls = new Set();
+            let hasMore = true;
 
             const podcastsDir = await currentDirHandle.getDirectoryHandle('Podcasts', { create: true });
             const subs = await getSubscriptions();
             const template = templateInput.value || "{YYYY}{MM}{DD} - {TITLE}";
 
-            await syncEpisodesToDrive(podcastsDir, episodes, subs, (cur, tot, filename, currentShow, remaining) => {
-                const percent = Math.round((cur / tot) * 100);
-                syncBar.style.width = `${percent}%`;
-                syncShowName.textContent = currentShow || 'Syncing...';
-                syncSubtitle.textContent = filename || 'Writing file...';
-                syncMeta.textContent = `${tot - cur} EPISODES REMAINING`;
+            while (hasMore) {
+                if (syncAbortController?.signal.aborted) break;
 
-                // Update Backlog UI
-                const backlogList = document.getElementById('sync-backlog-list');
-                if (backlogList && remaining) {
-                    backlogList.innerHTML = '';
-                    remaining.forEach(ep => {
-                        const li = document.createElement('li');
-                        li.className = 'sub-nav-item';
-                        li.style.cursor = 'default';
-                        li.style.padding = '0.2rem 0.5rem';
-                        li.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
-                        li.innerHTML = `
-                            <div style="display:flex; flex-direction:column; overflow:hidden;">
-                                <span class="truncate" style="font-weight:700; color:rgba(255,255,255,0.7);">${ep.title}</span>
-                                <span class="truncate" style="font-size:0.6rem; opacity:0.4;">${ep.showTitle}</span>
-                            </div>
-                        `;
-                        backlogList.appendChild(li);
-                    });
+                const allEpisodes = await getAllEpisodes();
+                let toSync = allEpisodes.filter(e => 
+                    e.status === 'downloaded' && 
+                    e.blob && 
+                    !processedUrls.has(e.enclosureUrl)
+                );
 
-                    if (remaining.length === 0) {
-                        backlogList.innerHTML = '<li style="padding: 0.5rem; color: var(--color-accent); font-size: 0.6rem; text-align: center;">FINALIZING...</li>';
+                if (toSync.length === 0) {
+                    // If no more to sync, check if downloads are still active
+                    if (downloadQueue.running > 0 || downloadQueue.queue.length > 0) {
+                        syncSubtitle.textContent = 'WAITING FOR DOWNLOADS...';
+                        await new Promise(r => setTimeout(r, 2000)); // Wait and poll
+                        continue;
+                    } else {
+                        hasMore = false;
+                        break;
                     }
                 }
-            }, syncAbortController.signal, async (ep) => {
-                await markEpisodeAsOnDevice(ep.enclosureUrl);
-            }, template);
 
-            // Generate M3U playlist if enabled
-            const shouldGenerateM3U = await getSetting('generate_m3u', 'false') === 'true';
-            if (shouldGenerateM3U) {
-                syncSubtitle.textContent = 'Updating playlists...';
-                const allEpsMetadata = await getAllEpisodes();
-                await generateDevicePlaylist(podcastsDir, allEpsMetadata);
+                // Sort and sync the current batch
+                toSync.sort((a, b) => new Date(a.pubDate || 0) - new Date(b.pubDate || 0));
+                
+                // We sync one batch at a time to stay responsive to new downloads
+                await syncEpisodesToDrive(podcastsDir, toSync, subs, (cur, tot, filename, currentShow, remaining) => {
+                    const totalRemaining = (tot - cur) + (downloadQueue.running + downloadQueue.queue.length);
+                    syncBar.style.width = `${Math.round((cur / tot) * 100)}%`;
+                    syncShowName.textContent = currentShow || 'Syncing...';
+                    syncSubtitle.textContent = filename || 'Writing file...';
+                    syncMeta.textContent = `${totalRemaining} EPISODES REMAINING`;
+
+                    // Update Backlog UI
+                    const backlogList = document.getElementById('sync-backlog-list');
+                    if (backlogList) {
+                        backlogList.innerHTML = '';
+                        remaining.forEach(ep => {
+                            const li = document.createElement('li');
+                            li.className = 'sub-nav-item';
+                            li.style.cursor = 'default';
+                            li.style.padding = '0.2rem 0.5rem';
+                            li.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                            li.innerHTML = `
+                                <div style="display:flex; flex-direction:column; overflow:hidden;">
+                                    <span class="truncate" style="font-weight:700; color:rgba(255,255,255,0.7);">${ep.title}</span>
+                                    <span class="truncate" style="font-size:0.6rem; opacity:0.4;">${ep.showTitle}</span>
+                                </div>
+                            `;
+                            backlogList.appendChild(li);
+                        });
+                    }
+                }, syncAbortController.signal, async (ep) => {
+                    await markEpisodeAsOnDevice(ep.enclosureUrl);
+                    processedUrls.add(ep.enclosureUrl);
+                }, template);
             }
-            
+
             console.log("🎉 Sync process finished successfully!");
             playSuccess();
             await updateCacheCounter();

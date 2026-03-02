@@ -3,6 +3,41 @@
  */
 
 /**
+ * Simple concurrency-limited task queue
+ */
+export class TaskQueue {
+    constructor(concurrency = 1) {
+        this.concurrency = concurrency;
+        this.running = 0;
+        this.queue = [];
+    }
+
+    push(task) {
+        return new Promise((resolve, reject) => {
+            this.queue.push({ task, resolve, reject });
+            this._next();
+        });
+    }
+
+    async _next() {
+        if (this.running >= this.concurrency || this.queue.length === 0) return;
+
+        this.running++;
+        const { task, resolve, reject } = this.queue.shift();
+
+        try {
+            const result = await task();
+            resolve(result);
+        } catch (err) {
+            reject(err);
+        } finally {
+            this.running--;
+            this._next();
+        }
+    }
+}
+
+/**
  * Sanitizes a string to be a valid feature phone filename.
  * Constraints:
  * - Max 255 characters (leaving room for .mp3 extension, so max 250)
