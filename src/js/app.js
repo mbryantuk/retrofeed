@@ -1172,7 +1172,7 @@ loginBtn.addEventListener('click', async () => {
         syncBar.style.width = '0%';
         syncSubtitle.textContent = 'Preparing files...';
         syncShowName.textContent = 'Multi-show Sync';
-        syncMeta.textContent = '0 / 0 EPISODES';
+        syncMeta.textContent = '0 EPISODES REMAINING';
         
         syncAbortController = new AbortController();
         
@@ -1200,7 +1200,7 @@ loginBtn.addEventListener('click', async () => {
                 syncBar.style.width = `${percent}%`;
                 syncShowName.textContent = currentShow || 'Syncing...';
                 syncSubtitle.textContent = filename || 'Writing file...';
-                syncMeta.textContent = `${cur} / ${tot} EPISODES`;
+                syncMeta.textContent = `${tot - cur} EPISODES REMAINING`;
 
                 // Update Backlog UI
                 const backlogList = document.getElementById('sync-backlog-list');

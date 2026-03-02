@@ -1,6 +1,6 @@
 {
   "name": "dumbsync",
-  "version": "1.3.10",
+  "version": "1.3.11",
   "description": "High-fidelity podcast syncer for vintage feature phones.",
   "main": "index.js",
   "scripts": {
