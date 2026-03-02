@@ -1,0 +1,335 @@
+{
+  "items": [
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCmU",
+        "title": "Phase 1: Initialize project structure (HTML, CSS, JS files)",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc0uA",
+      "status": "Done",
+      "title": "Phase 1: Initialize project structure (HTML, CSS, JS files)"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCmc",
+        "title": "Phase 1: Setup CSS variables for the Retrofeed styleguide",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc0uc",
+      "status": "Done",
+      "title": "Phase 1: Setup CSS variables for the Retrofeed styleguide"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCmk",
+        "title": "Phase 1: Integrate Google Fonts (VT323 and IBM Plex Mono)",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc0u4",
+      "status": "Done",
+      "title": "Phase 1: Integrate Google Fonts (VT323 and IBM Plex Mono)"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCms",
+        "title": "Phase 1: Build the core UI layout (Header, Subscription List, Device Status)",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc0vc",
+      "status": "Done",
+      "title": "Phase 1: Build the core UI layout (Header, Subscription List, Device Status)"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCm0",
+        "title": "Phase 1: Implement the Inset shadow styling for input fields",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc0v8",
+      "status": "Done",
+      "title": "Phase 1: Implement the Inset shadow styling for input fields"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCnA",
+        "title": "Phase 1: Create the Cassette Spin CSS animation for loading/syncing states",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc0wc",
+      "status": "Done",
+      "title": "Phase 1: Create the Cassette Spin CSS animation for loading/syncing states"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCnE",
+        "title": "Phase 2: Implement RSS feed fetching and parsing logic",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc0w4",
+      "status": "Done",
+      "title": "Phase 2: Implement RSS feed fetching and parsing logic"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCnI",
+        "title": "Phase 2: Setup IndexedDB database for storing subscription data",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc0xM",
+      "status": "Done",
+      "title": "Phase 2: Setup IndexedDB database for storing subscription data"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCnQ",
+        "title": "Phase 2: Setup IndexedDB table for caching downloaded podcast blobs",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc0yQ",
+      "status": "Done",
+      "title": "Phase 2: Setup IndexedDB table for caching downloaded podcast blobs"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCnc",
+        "title": "Phase 2: Implement the filename sanitization logic",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc0y0",
+      "status": "Done",
+      "title": "Phase 2: Implement the filename sanitization logic"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCnk",
+        "title": "Phase 2: Implement download logic to fetch .mp3 enclosures from parsed feeds",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc0zY",
+      "status": "Done",
+      "title": "Phase 2: Implement download logic to fetch .mp3 enclosures from parsed feeds"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCno",
+        "title": "Phase 3: Scaffold the basic Chrome Extension",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc00Y",
+      "status": "Deprecated (Pivoted to Web FS API)",
+      "title": "Phase 3: Scaffold the basic Chrome Extension"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCns",
+        "title": "Phase 3: Implement chrome.usb listeners to detect when a USB Mass Storage device is connected/disconnected",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc004",
+      "status": "Deprecated (Pivoted to Web FS API)",
+      "title": "Phase 3: Implement chrome.usb listeners to detect when a USB Mass Storage device is connected/disconnected"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCn0",
+        "title": "Phase 3: Implement file system access logic to locate or create the top-level /Podcasts folder",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc01c",
+      "status": "Done",
+      "title": "Phase 3: Implement file system access logic to locate or create the top-level /Podcasts folder"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCn4",
+        "title": "Phase 4: Implement the PostMessage API in the Web App to send sync requests",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc02Y",
+      "status": "Deprecated (Pivoted to Web FS API)",
+      "title": "Phase 4: Implement the PostMessage API in the Web App to send sync requests"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCoA",
+        "title": "Phase 4: Implement the PostMessage listener in the Extension to receive data",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc03A",
+      "status": "Deprecated (Pivoted to Web FS API)",
+      "title": "Phase 4: Implement the PostMessage listener in the Extension to receive data"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCoI",
+        "title": "Phase 4: Write the logic to transfer downloaded .mp3 blobs from the Web App to the Extension",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc03w",
+      "status": "Deprecated (Pivoted to Web FS API)",
+      "title": "Phase 4: Write the logic to transfer downloaded .mp3 blobs from the Web App to the Extension"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCoU",
+        "title": "Phase 5: Test USB connection handling with various mock states",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc05Q",
+      "status": "Todo",
+      "title": "Phase 5: Test USB connection handling with various mock states"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCoc",
+        "title": "Phase 5: Perform an end-to-end sync test on a physical USB drive",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc05s",
+      "status": "Todo",
+      "title": "Phase 5: Perform an end-to-end sync test on a physical USB drive"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOCpE",
+        "title": "Phase 5: Create a test suite for the filename sanitizer",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc1Ao",
+      "status": "Done",
+      "title": "Phase 5: Create a test suite for the filename sanitizer"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOC7E",
+        "title": "Feature: Podcast Download Rules (Auto/Manual/Omit)",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc42c",
+      "status": "Done",
+      "title": "Feature: Podcast Download Rules (Auto/Manual/Omit)"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOC7U",
+        "title": "Feature: Manual episode selection UI",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc44Q",
+      "status": "Done",
+      "title": "Feature: Manual episode selection UI"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKOC7o",
+        "title": "Feature: Download to IndexedDB offline cache when device disconnected",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc46g",
+      "status": "Done",
+      "title": "Feature: Download to IndexedDB offline cache when device disconnected"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKODI0",
+        "title": "Feature: Web File System Access API Integration",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc6ew",
+      "status": "Done",
+      "title": "Feature: Web File System Access API Integration"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKODMk",
+        "title": "Feature: Configurable auto-download count",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc7J0",
+      "status": "Done",
+      "title": "Feature: Configurable auto-download count"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKODik",
+        "title": "Feature: SaaSify - User Authentication UI",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc84Q",
+      "status": "Done",
+      "title": "Feature: SaaSify - User Authentication UI"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKODis",
+        "title": "Feature: SaaSify - Session management via localStorage",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc848",
+      "status": "Done",
+      "title": "Feature: SaaSify - Session management via localStorage"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKODmY",
+        "title": "SaaS: Implement real JWT authentication backend",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc9rU",
+      "status": "Done",
+      "title": "SaaS: Implement real JWT authentication backend"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKODmc",
+        "title": "SaaS: Add user registration and email verification",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc9rw",
+      "status": "Done",
+      "title": "SaaS: Add user registration and email verification"
+    },
+    {
+      "content": {
+        "body": "",
+        "id": "DI_lAHOALfffc4BQjAvzgKODmk",
+        "title": "SaaS: Implement password reset flow",
+        "type": "DraftIssue"
+      },
+      "id": "PVTI_lAHOALfffc4BQjAvzgmc9sY",
+      "status": "Done",
+      "title": "SaaS: Implement password reset flow"
+    }
+  ],
+  "totalCount": 129
+}

@@ -1,0 +1,22 @@
+services:
+  retrofeed:
+    build: .
+    container_name: retrofeed-app
+    restart: always
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+    volumes:
+      - ./server/db:/app/server/db
+      - ./server.key:/app/server.key
+      - ./server.cert:/app/server.cert
+    environment:
+      - PORT=3000
+      - JWT_SECRET=${JWT_SECRET:-super-secret-retrofeed-key}
+      - PUBLIC_HOSTNAME=retro.mbryantuk.uk
+    networks:
+      - retrofeed-network
+
+networks:
+  retrofeed-network:
+    driver: bridge

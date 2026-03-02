@@ -1,0 +1,79 @@
+/* Base Modal Styles for Overlays (Search, Onboarding) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 600px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-body {
+    overflow-y: auto;
+}
+
+/* Share episode list styling for search results */
+.episode-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.episode-item {
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.status-badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 700;
+}
+
+.status-cached { background: rgba(34, 197, 94, 0.2); color: var(--color-success); }
+.status-available { background: rgba(161, 161, 170, 0.1); color: var(--color-text-muted); }

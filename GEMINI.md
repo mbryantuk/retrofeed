@@ -13,8 +13,8 @@
 - **Audio:** Support `.mp3` only.
 
 ## Architecture
-- **Web App:** Handles RSS parsing and file renaming logic.
-- **Chrome Extension:** Uses `chrome.usb` to listen for device events and `chrome.fileSystem` (if in Chrome Apps) or coordinates with the Web App's File System Access API.
+- **Web App:** Handles RSS parsing, file renaming logic, and device writing.
+- **File System:** Uses the native Web File System Access API to write directly to the USB device. No Chrome Extension is required!
 
 ## Maintenance
 - Keep code modular. Separate "Podcast Logic" from "File System Logic."
@@ -36,3 +36,18 @@
 ### UI Logic
 - **"The Cassette Spin":** When a file is downloading or syncing, show a subtle rotating reel animation.
 - **Tone:** Technical and reliable. Avoid "cutesy" language.
+- **"Not on Device":** A dedicated dashboard indicator showing the number of cached episodes ready for sync.
+
+## Key Features (v1.3.x)
+- **Auto-Refresh on Load:** Automatically fetches latest episodes from all subscriptions upon application startup.
+- **Auto-Sync to Device:** Triggers an automatic sync to the connected USB drive after feed updates or manual downloads.
+- **Dual-Playlist Generation:**
+  - `all_podcasts.m3u`: Global playlist in the root folder, sorted newest-first.
+  - Per-Show Playlists: Individual show playlists inside each folder, sorted oldest-first.
+- **Device-Based Configuration:** Full application state (settings + subscriptions) is mirrored to the USB device for instant restoration across different systems.
+- **Folder Overrides:** Support for custom show titles (target directory names) that persist across refreshes and syncs.
+
+## Task Management
+Project tasks are tracked using a GitHub Project board (Kanban style). 
+- **Board URL:** [https://github.com/users/mbryantuk/projects/1](https://github.com/users/mbryantuk/projects/1)
+- Tasks are broken down into logical phases (e.g., Phase 1: Foundation & UI, Phase 2: Core Data Logic, etc.) and managed as draft issues or full repository issues.

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Ensure latest version is always fetched -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="theme-color" content="#18181b">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Retrofeed">
+  
+  <title>Retrofeed - Universal Sync Platform</title>
+  <link rel="icon" href="icon-192.png" sizes="192x192">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="modern-ui">
+  
+  <!-- Auth Screen -->
+  <div id="auth-container" class="auth-container">
+    <header class="auth-header">
+      <h1>RETROFEED</h1>
+      <p>UNIVERSAL SYNC PLATFORM</p>
+    </header>
+    <div class="auth-body">
+      <div class="input-group">
+        <label for="username-input">USERNAME</label>
+        <input type="text" id="username-input" class="inset-input" placeholder="user">
+      </div>
+      <div class="input-group">
+        <label for="password-input">PASSWORD</label>
+        <input type="password" id="password-input" class="inset-input" placeholder="password">
+      </div>
+      <div id="auth-error" class="auth-error"></div>
+      <button id="login-btn" class="action-btn">LOGIN</button>
+      <button id="register-btn" class="action-btn hidden" style="background-color: var(--color-accent);">CREATE ACCOUNT</button>
+      
+      <div style="text-align: center; margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+        <span id="auth-mode-text" style="color: var(--color-text-muted); font-size: 0.8rem; cursor: pointer; text-decoration: underline;">Need an account? Register here.</span>
+        <span id="forgot-password-text" style="color: var(--color-text-muted); font-size: 0.8rem; cursor: pointer; text-decoration: underline;">Forgot system credentials?</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Onboarding Overlay -->
+  <div id="onboarding-overlay" class="modal-overlay hidden">
+    <div class="modal-content" style="text-align: center;">
+      <h2 class="modal-title" id="onboarding-title">SYSTEM INITIALIZED</h2>
+      <div id="onboarding-body" style="margin: 1.5rem 0; font-size: 0.9rem; line-height: 1.8;">
+        <!-- Step content -->
+      </div>
+      <div style="display:flex; flex-direction: column; gap: 0.5rem; align-items: center;">
+        <button id="onboarding-next-btn" class="action-btn">PROCEED</button>
+        <button id="onboarding-skip-btn" class="action-btn btn-small" style="opacity: 0.5;">SKIP TUTORIAL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Shell -->
+  <div id="app-container" class="app-shell hidden">
+    
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="logo-area">
+          <span class="logo-icon">R</span>
+          <span class="logo-text">RETROFEED</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-item active" id="nav-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Dashboard</span>
+          </div>
+          <div class="nav-item" id="nav-settings">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Settings</span>
+          </div>
+          <div class="nav-item" id="nav-logs">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+            <span>System Logs</span>
+          </div>
+        </div>
+
+        <div class="nav-section">
+          <div class="section-label">SUBSCRIPTIONS</div>
+          <ul id="sidebar-subs-list" class="sidebar-subs-list"></ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-block">
+          <div class="avatar" id="user-avatar-initial">U</div>
+          <div class="user-info">
+            <div id="user-greeting" class="user-name">USER</div>
+            <div id="logout-btn" class="logout-link">Logout</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main-content">
+      
+      <header class="main-top-bar">
+        <div class="search-container">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="rss-input" class="search-input" placeholder="Search podcasts or enter RSS URL...">
+          <button id="add-btn" class="execute-btn">EXECUTE</button>
+        </div>
+        
+        <div class="top-bar-actions">
+          <!-- Sync Status Spinner -->
+          <div id="sync-status-indicator" class="sync-status-indicator hidden">
+            <div class="sync-spinner-container">
+              <svg id="sync-spinner" class="sync-spinner" viewBox="0 0 512 512" width="24" height="24">
+                <circle cx="160" cy="256" r="48" fill="none" stroke="currentColor" stroke-width="12"/>
+                <circle cx="352" cy="256" r="48" fill="none" stroke="currentColor" stroke-width="12"/>
+                <path d="M160 256 L352 256" stroke="currentColor" stroke-width="8" stroke-dasharray="20,10"/>
+              </svg>
+            </div>
+            
+            <div id="sync-dropdown" class="sync-dropdown">
+              <div class="sync-dropdown-header">
+                <h4 id="sync-overlay-title">SYNCING</h4>
+                <div id="sync-overlay-meta" class="sync-meta">0 / 0 EPISODES</div>
+              </div>
+              <div class="sync-dropdown-body">
+                <div id="sync-show-name" class="sync-show-name">Podcast Name</div>
+                <div id="sync-overlay-subtitle" class="sync-episode-name">Episode Title</div>
+                <div class="sync-progress-container">
+                  <div id="sync-overlay-bar" class="sync-progress-fill" style="width: 0%;"></div>
+                </div>
+                <button id="sync-overlay-abort" class="action-btn btn-small danger-text sync-abort-btn">ABORT SYNC</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="device-status" class="status-indicator">
+            <span class="status-dot disconnected"></span>
+            <span class="status-text">NO DEVICE</span>
+          </div>
+        </div>
+      </header>
+
+      <div id="view-container" class="view-container">
+        
+        <!-- Dashboard View -->
+        <section id="home-view" class="content-view">
+          <div class="view-header" style="display:flex; justify-content:space-between; align-items:center;">
+            <h2>Dashboard</h2>
+            <button id="refresh-all-btn" class="action-btn btn-small" style="background: var(--color-sidebar); border: 1px solid var(--color-accent); color: var(--color-accent);">REFRESH ALL</button>
+          </div>
+          
+          <div id="compatibility-warning" class="stat-card hidden" style="background: rgba(239, 68, 68, 0.1); border-color: var(--color-error); margin-bottom: 1.5rem;">
+            <div style="display:flex; gap:1rem; align-items:center;">
+              <div style="font-size:1.5rem;">⚠️</div>
+              <div style="font-size:0.8rem; color:var(--color-error); line-height:1.4;">
+                <strong>USB Sync Unavailable:</strong> Your browser has disabled the File System API. 
+                This usually happens because the connection is not considered "Secure".
+                <br><br>
+                <strong>To fix this:</strong>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                  <li>Ensure you are using <strong>HTTPS</strong> (https://10.10.2.0:3000)</li>
+                  <li>If using Chrome, go to <code>chrome://flags/#unsafely-treat-insecure-origin-as-secure</code>, add <code>http://10.10.2.0:3000</code> to the list, and enable it.</li>
+                  <li>Or access the app via <code>localhost</code> if possible.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div id="dashboard-stats" class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-label">TOTAL SHOWS</span>
+              <span id="stat-shows" class="stat-value">0</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">CACHED DATA</span>
+              <span id="stat-size" class="stat-value">0 MB</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">NOT ON DEVICE</span>
+              <span id="cache-status" class="stat-value">0</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">DEVICE</span>
+              <span id="stat-device" class="stat-value error">OFFLINE</span>
+            </div>
+          </div>
+
+          <div class="sync-banner">
+            <div id="device-connection-cta">
+              <button id="connect-device-btn" class="action-btn primary-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14 8 16"/><path d="M14 10 16 8"/><path d="m17 21-5-5 4-4 5 5z"/><path d="m7 3 5 5-4 4-5-5z"/></svg>
+                <span>LINK USB STORAGE</span>
+              </button>
+            </div>
+            
+            <div id="sync-active-area" class="hidden">
+              <div class="storage-info">
+                <div class="storage-labels">
+                  <span>LOCAL CACHE UTILIZATION</span>
+                  <span id="storage-text">0 MB</span>
+                </div>
+                <div class="storage-progress-bg">
+                  <div id="storage-fill" class="storage-progress-fill"></div>
+                </div>
+              </div>
+              
+              <div class="pending-sync-section" style="margin-top: 1.5rem;">
+                <div class="nav-section">
+                   <div class="section-label">PENDING SYNC</div>
+                   <ul id="pending-sync-list" class="sidebar-subs-list" style="max-height: 200px; overflow-y: auto; margin-bottom: 1rem;">
+                      <!-- Dynamically populated -->
+                   </ul>
+                </div>
+              </div>
+
+              <button id="sync-btn" class="action-btn sync-btn">SYNC TO DEVICE</button>
+            </div>
+
+            <div id="sync-progress" class="sync-status-box hidden">
+                <div class="cassette-spin"></div>
+                <span id="sync-status-text">SYNCING...</span>
+                <button id="abort-sync-btn" class="btn-small danger-text">ABORT</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Podcast Details View -->
+        <section id="podcast-view" class="content-view hidden" style="padding: 0;">
+          <div class="podcast-hero">
+            <div id="hero-backdrop" class="hero-bg-blur"></div>
+            <div class="hero-content">
+              <img id="view-podcast-artwork" src="" alt="" class="podcast-artwork-large">
+              <div class="hero-info">
+                <h2 id="view-podcast-title">Podcast Name</h2>
+                <div class="hero-actions">
+                   <div class="control-group">
+                    <label>SYNC FOLDER</label>
+                    <input type="text" id="view-show-title-override" class="inset-input hero-input">
+                  </div>
+                  <div class="control-group">
+                    <label>SYNC RULE</label>
+                    <select id="view-download-rule" class="inset-input hero-input">
+                      <option value="manual_only">Manual</option>
+                      <option value="auto_1">Latest 1</option>
+                      <option value="auto_3">Latest 3</option>
+                      <option value="auto_5">Latest 5</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="view-body-content">
+            <div class="episode-list-filters">
+              <button class="action-btn btn-small primary-btn" id="view-bulk-download-btn">CACHE ALL</button>
+              <button class="action-btn btn-small" id="view-bulk-omit-btn">OMIT ALL</button>
+              <div class="spacer"></div>
+              <select id="view-filter-select" class="inset-input tiny-input">
+                <option value="all">All</option>
+                <option value="downloaded">Cached</option>
+                <option value="omitted">Omitted</option>
+              </select>
+              <select id="view-sort-select" class="inset-input tiny-input">
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+              </select>
+            </div>
+            <ul id="view-episode-list" class="episode-list modern-list"></ul>
+          </div>
+        </section>
+
+        <!-- Settings View -->
+        <section id="settings-view" class="content-view hidden">
+          <div class="view-header">
+            <h2>Settings</h2>
+          </div>
+          
+          <div class="settings-grid">
+            <!-- Account Section -->
+            <div class="settings-group">
+              <h3>Account</h3>
+              <div class="setting-card">
+                <div id="premium-status-text" class="premium-label">FREE USER</div>
+                <p id="premium-benefit-text" class="help-text">Upgrade to unlock advanced Transcoding features.</p>
+                <button id="upgrade-premium-btn" class="action-btn primary-btn" style="width:100%; margin-top:1rem;">UPGRADE SYSTEM</button>
+              </div>
+              <button id="logout-btn-settings" class="action-btn logout-btn" style="width: 100%; margin-top: 1rem;">LOGOUT OF SYSTEM</button>
+            </div>
+
+            <!-- Preferences Section -->
+            <div class="settings-group">
+              <h3>Preferences</h3>
+              <div class="setting-item">
+                <label>UI THEME</label>
+                <select id="theme-select" class="inset-input">
+                  <option value="modern-dark">Deep Dark</option>
+                  <option value="slate-grey">Slate Grey</option>
+                  <option value="emerald-safe">Emerald City</option>
+                  <option value="pure-light">Pure Light</option>
+                </select>
+              </div>
+              <div class="setting-item">
+                <label>TRANSCODE BITRATE</label>
+                <select id="transcode-bitrate" class="inset-input">
+                  <option value="none">Original (No Transcoding)</option>
+                  <option value="64k">64 kbps (Max Compatibility)</option>
+                  <option value="128k">128 kbps (Balanced)</option>
+                  <option value="192k">192 kbps (High Quality)</option>
+                </select>
+              </div>
+              <div class="setting-item">
+                <label>GLOBAL AUTO-DOWNLOAD</label>
+                <select id="setting-global-rule" class="inset-input">
+                  <option value="auto_1">Latest 1 Episode</option>
+                  <option value="auto_3">Latest 3 Episodes</option>
+                  <option value="auto_5">Latest 5 Episodes</option>
+                  <option value="auto_10">Latest 10 Episodes</option>
+                </select>
+                <p class="help-text">Default rule for new podcasts</p>
+              </div>
+              <div class="setting-item" style="display: flex; align-items: center; justify-content: space-between; margin-top: 1rem;">
+                <label style="margin-bottom: 0;">AUTO-REFRESH ON LOAD</label>
+                <input type="checkbox" id="setting-auto-refresh" style="width: 20px; height: 20px; accent-color: var(--color-accent);">
+              </div>
+              <div class="setting-item" style="display: flex; align-items: center; justify-content: space-between; margin-top: 1rem;">
+                <label style="margin-bottom: 0;">AUTO-SYNC TO DEVICE</label>
+                <input type="checkbox" id="setting-auto-sync" style="width: 20px; height: 20px; accent-color: var(--color-accent);">
+              </div>
+              <div class="setting-item" style="display: flex; align-items: center; justify-content: space-between; margin-top: 1rem;">
+                <label style="margin-bottom: 0;">GENERATE M3U PLAYLIST</label>
+                <input type="checkbox" id="setting-generate-m3u" style="width: 20px; height: 20px; accent-color: var(--color-accent);">
+              </div>
+            </div>
+            
+            <!-- System Section -->
+            <div class="settings-group">
+              <h3>System</h3>
+              <div class="setting-item">
+                <label>CORS PROXY URL</label>
+                <input type="text" id="setting-proxy-url" class="inset-input" placeholder="https://your-proxy.com/">
+                <p class="help-text">Leave blank for default (port 8080)</p>
+              </div>
+
+              <div class="setting-item">
+                <label>FILENAME TEMPLATE</label>
+                <input type="text" id="global-filename-template" class="inset-input" placeholder="{YYYY}{MM}{DD} - {TITLE}">
+                <p class="help-text">Vars: {YYYY}, {MM}, {DD}, {SHOW}, {TITLE}</p>
+              </div>
+            </div>
+
+            <!-- Maintenance Section -->
+            <div class="settings-group danger-zone">
+              <h3>Maintenance</h3>
+              <div style="display:flex; flex-direction:column; gap:0.75rem;">
+                <button id="rebuild-playlists-btn" class="action-btn logout-btn" style="background: var(--color-sidebar); border-color: var(--color-accent); color: var(--color-accent);">REBUILD PLAYLISTS</button>
+                <button id="clear-cache-btn" class="action-btn logout-btn">PURGE LOCAL CACHE</button>
+                <button id="clear-device-btn" class="action-btn logout-btn">WIPE USB DRIVE</button>
+                <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+                  <button id="export-opml-btn" class="action-btn btn-small" style="flex:1">EXPORT OPML</button>
+                  <button id="import-opml-btn" class="action-btn btn-small" style="flex:1">IMPORT OPML</button>
+                  <input type="file" id="opml-file-input" style="display:none;" accept=".opml">
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Logs View -->
+        <section id="logs-view" class="content-view hidden">
+          <div class="view-header" style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:baseline; gap:1rem;">
+              <h2>System Logs</h2>
+              <span id="log-version-display" style="font-size:0.7rem; opacity:0.5; font-family:var(--font-mono);">v0.0.0</span>
+            </div>
+            <div style="display:flex; gap:0.5rem;">
+              <button id="test-proxy-btn" class="action-btn btn-small" style="background: var(--color-sidebar); border: 1px solid var(--color-accent); color: var(--color-accent);">TEST PROXY</button>
+              <button id="clear-logs-btn" class="action-btn btn-small">CLEAR</button>
+              <button id="download-logs-btn" class="action-btn btn-small primary-btn">DOWNLOAD</button>
+            </div>
+          </div>
+          
+          <div id="logs-container" class="stat-card" style="margin-top:1rem; height: 60vh; overflow-y: auto; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; background: #000; padding: 1rem; border: 1px solid var(--color-border); white-space: pre-wrap;">
+            <!-- Logs will be injected here -->
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Persistent Bottom Player -->
+    <footer id="mini-player" class="app-player hidden">
+      <div class="player-left">
+        <div class="player-art-container">
+          <img id="player-artwork" src="" alt="" class="player-mini-art">
+        </div>
+        <div class="player-track-info">
+          <div id="player-title" class="player-track-name">No track selected</div>
+          <div id="player-show" class="player-show-name">Retrofeed Player</div>
+        </div>
+      </div>
+      
+      <div class="player-center">
+        <div class="player-controls-main">
+          <button id="player-skip-back" class="icon-btn-lite" title="Back 15s">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
+          </button>
+          <button class="icon-btn-lite" title="Previous"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><rect x="5" y="4" width="2" height="16"/></svg></button>
+          <button id="player-play-btn" class="play-pause-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          <button class="icon-btn-lite" title="Next"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><rect x="17" y="4" width="2" height="16"/></svg></button>
+          <button id="player-skip-forward" class="icon-btn-lite" title="Forward 30s">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.41 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.91 16c1.05-3.19 4.05-5.5 7.59-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.59 3.6z"/></svg>
+          </button>
+        </div>
+        <div class="player-progress-area">
+          <span id="player-time-current" class="time-stamp">0:00</span>
+          <div class="progress-bar-container">
+            <input type="range" id="player-progress" class="player-slider" value="0" min="0" max="100">
+          </div>
+          <span id="player-time-total" class="time-stamp">0:00</span>
+        </div>
+      </div>
+
+      <div class="player-right">
+        <div class="vol-control">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 10 0 0 1 0 7.07"/></svg>
+          <input type="range" class="vol-slider" min="0" max="100" value="80">
+        </div>
+        <button id="player-speed-btn" class="btn-small-pill">1.0x</button>
+        <button id="player-sleep-btn" class="btn-small-pill">SLEEP</button>
+        <button id="player-close-btn" class="icon-btn-lite" style="margin-left:0.5rem">&times;</button>
+      </div>
+      <audio id="html-audio-player" style="display:none;"></audio>
+    </footer>
+  </div>
+
+  <button id="back-to-top-btn" class="action-btn btn-small hidden" style="position: fixed; bottom: 7rem; right: 2rem; z-index: 500;">&uarr; TOP</button>
+  <script type="module" src="js/app.js?v=1.2.7"></script>
+</body>
+</html>
