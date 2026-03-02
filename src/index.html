@@ -144,7 +144,15 @@
                 <div class="sync-progress-container">
                   <div id="sync-overlay-bar" class="sync-progress-fill" style="width: 0%;"></div>
                 </div>
-                <button id="sync-overlay-abort" class="action-btn btn-small danger-text sync-abort-btn">ABORT SYNC</button>
+                
+                <div class="sync-backlog-container" style="margin-top: 1rem; border-top: 1px solid var(--color-border); padding-top: 0.5rem;">
+                  <div class="section-label" style="font-size: 0.6rem; margin-bottom: 0.5rem;">BACKLOG</div>
+                  <ul id="sync-backlog-list" class="sidebar-subs-list" style="max-height: 120px; overflow-y: auto; font-size: 0.7rem;">
+                    <!-- Pending items will appear here -->
+                  </ul>
+                </div>
+
+                <button id="sync-overlay-abort" class="action-btn btn-small danger-text sync-abort-btn" style="margin-top: 0.5rem; width: 100%;">ABORT SYNC</button>
               </div>
             </div>
           </div>

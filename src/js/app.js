@@ -1195,12 +1195,36 @@ loginBtn.addEventListener('click', async () => {
             const subs = await getSubscriptions();
             const template = templateInput.value || "{YYYY}{MM}{DD} - {TITLE}";
 
-            await syncEpisodesToDrive(podcastsDir, episodes, subs, (cur, tot, filename, currentShow) => {
+            await syncEpisodesToDrive(podcastsDir, episodes, subs, (cur, tot, filename, currentShow, remaining) => {
                 const percent = Math.round((cur / tot) * 100);
                 syncBar.style.width = `${percent}%`;
                 syncShowName.textContent = currentShow || 'Syncing...';
                 syncSubtitle.textContent = filename || 'Writing file...';
                 syncMeta.textContent = `${cur} / ${tot} EPISODES`;
+
+                // Update Backlog UI
+                const backlogList = document.getElementById('sync-backlog-list');
+                if (backlogList && remaining) {
+                    backlogList.innerHTML = '';
+                    remaining.forEach(ep => {
+                        const li = document.createElement('li');
+                        li.className = 'sub-nav-item';
+                        li.style.cursor = 'default';
+                        li.style.padding = '0.2rem 0.5rem';
+                        li.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                        li.innerHTML = `
+                            <div style="display:flex; flex-direction:column; overflow:hidden;">
+                                <span class="truncate" style="font-weight:700; color:rgba(255,255,255,0.7);">${ep.title}</span>
+                                <span class="truncate" style="font-size:0.6rem; opacity:0.4;">${ep.showTitle}</span>
+                            </div>
+                        `;
+                        backlogList.appendChild(li);
+                    });
+
+                    if (remaining.length === 0) {
+                        backlogList.innerHTML = '<li style="padding: 0.5rem; color: var(--color-accent); font-size: 0.6rem; text-align: center;">FINALIZING...</li>';
+                    }
+                }
             }, syncAbortController.signal, async (ep) => {
                 await markEpisodeAsOnDevice(ep.enclosureUrl);
             }, template);

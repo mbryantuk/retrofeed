@@ -106,7 +106,10 @@ export async function syncEpisodesToDrive(podcastsDirHandle, episodes, subscript
                 epTitle: ep.title 
             }) + '.mp3') : ep.filename;
 
-        if (onProgress) onProgress(count, episodes.length, filename, showTitle);
+        if (onProgress) {
+            const remaining = episodes.slice(count);
+            onProgress(count, episodes.length, filename, showTitle, remaining);
+        }
 
         try {
             console.group(`📦 Syncing Episode ${count}/${episodes.length}: ${filename}`);
