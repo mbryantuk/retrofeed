@@ -251,7 +251,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const premiumStatusText = document.getElementById('premium-status-text');
     
     const deviceStatusDot = document.querySelector('.status-dot');
-    const deviceStatusText = document.querySelector('.status-text');
 
     let isDeviceConnected = false;
     let currentDirHandle = null;
@@ -1061,7 +1060,6 @@ loginBtn.addEventListener('click', async () => {
         if (handle) {
             if (await verifyPermission(handle, false)) await setDeviceConnected(handle);
             else {
-                deviceStatusText.textContent = 'LOCKED';
                 connectDeviceBtn.textContent = 'ACTIVATE USB DRIVE';
             }
         }
@@ -1071,7 +1069,6 @@ loginBtn.addEventListener('click', async () => {
         currentDirHandle = handle;
         isDeviceConnected = true;
         deviceStatusDot.classList.add('connected');
-        deviceStatusText.textContent = handle.name.toUpperCase();
         syncActiveArea.classList.remove('hidden');
         deviceConnCTA.classList.add('hidden');
         document.getElementById('stat-device').textContent = 'ONLINE';
