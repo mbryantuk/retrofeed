@@ -901,6 +901,11 @@ loginBtn.addEventListener('click', async () => {
                 syncBar.style.width = `${percent}%`;
                 syncMeta.textContent = `${percent}%`;
             });
+
+            if (!blob || blob.size < 1000) {
+                throw new Error("Invalid audio data (file too small).");
+            }
+
             console.log(`✅ Download complete (${(blob.size / 1024 / 1024).toFixed(2)} MB)`);
 
             const template = templateInput.value || "{YYYY}{MM}{DD} - {TITLE}";
@@ -939,7 +944,12 @@ loginBtn.addEventListener('click', async () => {
         } catch (e) {
             console.error("❌ Caching failed:", e);
             playError();
-            syncOverlay.classList.add('hidden');
+            syncSubtitle.textContent = `FAILED: ${e.message.substring(0, 30)}`;
+            syncBar.style.width = '0%';
+            setTimeout(() => {
+                syncOverlay.classList.remove('active');
+                setTimeout(() => syncOverlay.classList.add('hidden'), 500);
+            }, 4000);
         }
         console.groupEnd();
     }
